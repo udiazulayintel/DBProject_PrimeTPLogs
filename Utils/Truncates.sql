@@ -1,0 +1,12 @@
+
+TRUNCATE TABLE [dbo].[PrimeTelemetry_Area]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_DutId]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_InstanceName]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_LoggingSession]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_LogLevel]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_LogOperation]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_LogType]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_LotInTestingSession]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_TestMethodName]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_TestingSessionLogEntry]
+TRUNCATE TABLE [dbo].[PrimeTelemetry_TestingSessionLogEntry_Parameters]
