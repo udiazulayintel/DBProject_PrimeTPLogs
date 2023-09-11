@@ -1,0 +1,8 @@
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\bin\Debug\DBProject_PrimeTPLogs.dacpac
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\DBProject_PrimeTPLogs.sqlproj.AssemblyReference.cache
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\Model.xml
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\refactor.xml
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\postdeploy.sql
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\predeploy.sql
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\DBProject_PrimeTPLogs.dll
+c:\Users\uazulay\source\repos\Databases Projects\DBProject_PrimeTPLogs\obj\Debug\DBProject_PrimeTPLogs.pdb

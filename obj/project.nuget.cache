@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "fNh7FwD2/UMRscUowNwCyJfVCBLucmN7P2SgtGw3wEka64qCTtFIxO83fe5PQJXGMqkmauyuRMoFkQhMF4XO0A==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\uazulay\\source\\repos\\Databases Projects\\DBProject_PrimeTPLogs\\DBProject_PrimeTPLogs.sqlproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\uazulay\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\uazulay\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net46\\1.0.0\\microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,4 +1,7 @@
-
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp__Telemetry_LoadFromStaging] @TempStagingTableName VARCHAR(100)
 AS
 BEGIN
@@ -22,7 +25,8 @@ BEGIN
 		[instanceName] VARCHAR(500),
 		[dutId] INT,
 		[ipId] INT,
-		[VPO] VARCHAR(20),		
+		[VPO] VARCHAR(20),
+        [Facility] VARCHAR(15),		
 		[Operation] VARCHAR(15),
 		[ipName] VARCHAR(25),
 		[package] VARCHAR(25),
@@ -53,10 +57,11 @@ BEGIN
 	);
 
 	-- Create a local temp staging table and copy the data into it from the global temp table created from the C# side (eliminates the dynamic sql, can be enhanced in the future to use TVF)
-	INSERT INTO @Staging([LogEntryId], [PartitionId], [timestamp], [logLevel], [logType], [area], [operationName], [startTime], [duration], [testMethodName], [InitExecutionNumber], [globalLoggerSessionId], [parameters], [ActivityId], [ParentId], [instanceName], [dutId], [ipId], [VPO], [Operation], [ipName], [package], [bomGroup], [testFlow], [programName], [LotSessionId], [DeviceSessionId], [TestOrderNumber], [UnitId], [AgentName], [TesterName], [CellName], [uploadDatetimeUTC]) EXEC (N'SELECT NEXT VALUE FOR [dbo].[Telemetry_LogEntrySequence] AS [LogEntry], [dbo].[Telemetry_GetPartitionIdForTimestamp]([timestamp]) AS [PartitionId], [timestamp], [logLevel], [logType], [area], [operationName], [startTime], [duration], [testMethodName], [InitExecutionNumber], [globalLoggerSessionId], [parameters], [ActivityId], [ParentId], [instanceName], [dutId], [ipId], [VPO], [Operation], [ipName], [package], [bomGroup], [testFlow], [programName], [LotSessionId], [DeviceSessionId], [TestOrderNumber], [UnitId], [AgentName], [TesterName], [CellName], [uploadDatetimeUTC] FROM ' + @TempStagingTableName)
+	INSERT INTO @Staging([LogEntryId], [PartitionId], [timestamp], [logLevel], [logType], [area], [operationName], [startTime], [duration], [testMethodName], [InitExecutionNumber], [globalLoggerSessionId], [parameters], [ActivityId], [ParentId], [instanceName], [dutId], [ipId], [VPO], [Facility], [Operation], [ipName], [package], [bomGroup], [testFlow], [programName], [LotSessionId], [DeviceSessionId], [TestOrderNumber], [UnitId], [AgentName], [TesterName], [CellName], [uploadDatetimeUTC]) 
+    EXEC (N'SELECT NEXT VALUE FOR [dbo].[Telemetry_LogEntrySequence] AS [LogEntry], [dbo].[Telemetry_GetPartitionIdForTimestamp]([timestamp]) AS [PartitionId], [timestamp], [logLevel], [logType], [area], [operationName], [startTime], [duration], [testMethodName], [InitExecutionNumber], [globalLoggerSessionId], [parameters], [ActivityId], [ParentId], [instanceName], [dutId], [ipId], [VPO], [Facility], [Operation], [ipName], [package], [bomGroup], [testFlow], [programName], [LotSessionId], [DeviceSessionId], [TestOrderNumber], [UnitId], [AgentName], [TesterName], [CellName], [uploadDatetimeUTC] FROM ' + @TempStagingTableName)
 
 	---- Add to [PrimeTelemetry_TestMethodName]
-	MERGE	[dbo].[PrimeTelemetry_TestMethodName] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_TestMethodName] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [TestMethodName], [PartitionId]
 				FROM	@Staging
 				WHERE	[TestMethodName] IS NOT NULL
@@ -76,7 +81,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_InstanceName]
-	MERGE	[dbo].[PrimeTelemetry_InstanceName] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_InstanceName] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [InstanceName], [PartitionId]
 				FROM	@Staging
 				WHERE	[InstanceName] IS NOT NULL
@@ -96,7 +101,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_LogLevel]
-	MERGE	[dbo].[PrimeTelemetry_LogLevel] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_LogLevel] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [LogLevel], [PartitionId]
 				FROM	@Staging
 				WHERE	[LogLevel] IS NOT NULL
@@ -116,7 +121,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_LogType]
-	MERGE	[dbo].[PrimeTelemetry_LogType] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_LogType] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [LogType], [PartitionId]
 				FROM	@Staging
 				WHERE	[LogType] IS NOT NULL
@@ -136,7 +141,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_Area]
-	MERGE	[dbo].[PrimeTelemetry_Area] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_Area] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [Area], [PartitionId]
 				FROM	@Staging
 				WHERE	[Area] IS NOT NULL
@@ -156,7 +161,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_LogOperation]
-	MERGE	[dbo].[PrimeTelemetry_LogOperation] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_LogOperation] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [operationName] AS [LogOperation], [PartitionId]
 				FROM	@Staging
 				WHERE	[operationName] IS NOT NULL
@@ -176,7 +181,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_DutId]
-	MERGE	[dbo].[PrimeTelemetry_DutId] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_DutId] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [DeviceSessionId] AS [LoggerDutId], [PartitionId]
 				FROM	@Staging
 				WHERE	[DeviceSessionId] IS NOT NULL
@@ -196,7 +201,7 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_LoggingSession]
-	MERGE	[dbo].[PrimeTelemetry_LoggingSession] WITH (UPDLOCK, ROWLOCK) AS TRG
+	MERGE	[dbo].[PrimeTelemetry_LoggingSession] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
 	USING	(	SELECT	DISTINCT [PartitionId], [globalLoggerSessionId] AS [LoggerSessionId], [TesterName], [CellName], [ProgramName]
 				FROM	@Staging
 				WHERE	[globalLoggerSessionId] IS NOT NULL						
@@ -216,17 +221,17 @@ BEGIN
 
 
 	---- Add to [PrimeTelemetry_LotInTestingSession]
-	MERGE	[dbo].[PrimeTelemetry_LotInTestingSession] WITH (UPDLOCK, ROWLOCK) AS TRG
-	USING	(	SELECT	DISTINCT [PartitionId], [LotSessionId] AS [LoggerLotInSessionId], [globalLoggerSessionId] AS [LoggerSessionId], [VPO] AS [Lot], [Operation], [Package], [BomGroup], [testFlow] AS [ProcessStep], [InitExecutionNumber]
+	MERGE	[dbo].[PrimeTelemetry_LotInTestingSession] WITH (UPDLOCK, ROWLOCK, HOLDLOCK) AS TRG
+	USING	(	SELECT	DISTINCT [PartitionId], [LotSessionId] AS [LoggerLotInSessionId], [globalLoggerSessionId] AS [LoggerSessionId], [VPO] AS [Lot], [Operation], [Facility], [Package], [BomGroup], [testFlow] AS [ProcessStep], [InitExecutionNumber]
 				FROM	@Staging
 				WHERE	[LotSessionId] IS NOT NULL AND
 						[VPO] IS NOT NULL
-			) AS SRC([PartitionId], [LoggerLotInSessionId], [LoggerSessionId], [Lot], [Operation], [Package], [BomGroup], [ProcessStep], [InitExecutionNumber])
+			) AS SRC([PartitionId], [LoggerLotInSessionId], [LoggerSessionId], [Lot], [Operation],[Facility], [Package], [BomGroup], [ProcessStep], [InitExecutionNumber])
 	ON		TRG.[LoggerLotInSessionId] = SRC.[LoggerLotInSessionId] AND
 			TRG.[PartitionId] = SRC.[PartitionId]
 	WHEN NOT MATCHED THEN 
-			INSERT([PartitionId], [LoggerLotInSessionId], [LoggerSessionId], [Lot], [Operation], [Package], [BomGroup], [ProcessStep], [InitExecutionNumber])
-			VALUES(SRC.[PartitionId], SRC.[LoggerLotInSessionId], SRC.[LoggerSessionId], SRC.[Lot], SRC.[Operation], SRC.[Package], SRC.[BomGroup], SRC.[ProcessStep], SRC.[InitExecutionNumber]);
+			INSERT([PartitionId], [LoggerLotInSessionId], [LoggerSessionId], [Lot], [Operation],[Facility], [Package], [BomGroup], [ProcessStep], [InitExecutionNumber])
+			VALUES(SRC.[PartitionId], SRC.[LoggerLotInSessionId], SRC.[LoggerSessionId], SRC.[Lot], SRC.[Operation],SRC.[Facility], SRC.[Package], SRC.[BomGroup], SRC.[ProcessStep], SRC.[InitExecutionNumber]);
 
 	-- Update [LotInTestingSessionId]
 	UPDATE	S
@@ -253,6 +258,4 @@ BEGIN
 	EXEC (N'DROP TABLE ' + @TempStagingTableName)
 
 END
-
 GO
-

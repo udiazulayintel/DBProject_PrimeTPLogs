@@ -1,0 +1,56 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\Users\\uazulay\\source\\repos\\Databases Projects\\DBProject_PrimeTPLogs\\DBProject_PrimeTPLogs.sqlproj": {}
+  },
+  "projects": {
+    "c:\\Users\\uazulay\\source\\repos\\Databases Projects\\DBProject_PrimeTPLogs\\DBProject_PrimeTPLogs.sqlproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\uazulay\\source\\repos\\Databases Projects\\DBProject_PrimeTPLogs\\DBProject_PrimeTPLogs.sqlproj",
+        "projectName": "DBProject_PrimeTPLogs",
+        "projectPath": "c:\\Users\\uazulay\\source\\repos\\Databases Projects\\DBProject_PrimeTPLogs\\DBProject_PrimeTPLogs.sqlproj",
+        "packagesPath": "C:\\Users\\uazulay\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\uazulay\\source\\repos\\Databases Projects\\DBProject_PrimeTPLogs\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\uazulay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net46"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "\\\\amr.corp.intel.com\\ec\\proj\\MDO\\Global\\MIG\\MIT": {},
+          "\\\\amr.corp.intel.com\\ec\\proj\\MDO\\Global\\MIG\\TRACE\\Nuget\\Prod": {},
+          "\\\\ger.corp.intel.com\\ec\\proj\\ha\\stav\\dis\\TRACE\\golan\\trace-api-dev-nuget-packages": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/mit-is/_packaging/Trace/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net46": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "noWarn": [
+            "NU5128"
+          ]
+        }
+      },
+      "frameworks": {
+        "net46": {
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
